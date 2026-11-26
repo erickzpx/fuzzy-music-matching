@@ -1,450 +1,155 @@
 <!DOCTYPE html>
-<html lang="es" class="dark">
+<html lang="es">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Búsqueda de amistad aplicando Lógica Difusa - Compatibilidad Musical</title>
-    <!-- Tailwind CSS CDN -->
-    <script src="https://cdn.tailwindcss.com"></script>
-    <script>
-        tailwind.config = {
-            darkMode: 'class',
-            theme: {
-                extend: {
-                    colors: {
-                        brand: {
-                            50: '#f5f3ff',
-                            100: '#ede9fe',
-                            400: '#a78bfa',
-                            500: '#8b5cf6',
-                            600: '#7c3aed',
-                            700: '#6d28d9',
-                            900: '#4c1d95',
-                            950: '#0f0a1e',
-                        },
-                        emeraldCustom: {
-                            400: '#34d399',
-                            500: '#10b981',
-                            900: '#064e3b'
-                        }
-                    },
-                    fontFamily: {
-                        sans: ['Inter', 'sans-serif'],
-                    }
-                }
-            }
-        }
-    </script>
-    <!-- Font Awesome Icons -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <!-- Google Fonts -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
-    <style>
-        body {
-            font-family: 'Inter', sans-serif;
-            background-color: #0b0716;
-            color: #f1f5f9;
-        }
-        /* Custom scrollbar */
-        ::-webkit-scrollbar {
-            width: 8px;
-            height: 8px;
-        }
-        ::-webkit-scrollbar-track {
-            background: #0f0a1e;
-        }
-        ::-webkit-scrollbar-thumb {
-            background: #4c1d95;
-            border-radius: 4px;
-        }
-        ::-webkit-scrollbar-thumb:hover {
-            background: #7c3aed;
-        }
-        .glass-card {
-            background: rgba(22, 15, 43, 0.7);
-            backdrop-filter: blur(12px);
-            border: 1px solid rgba(139, 92, 246, 0.15);
-        }
-        .glass-card-hover:hover {
-            border-color: rgba(139, 92, 246, 0.4);
-            box-shadow: 0 8px 30px rgba(124, 58, 237, 0.15);
-        }
-        /* Custom slider styling */
-        input[type=range] {
-            -webkit-appearance: none;
-            background: transparent;
-        }
-        input[type=range]::-webkit-slider-thumb {
-            -webkit-appearance: none;
-            height: 18px;
-            width: 18px;
-            border-radius: 50%;
-            background: #a78bfa;
-            cursor: pointer;
-            box-shadow: 0 0 10px rgba(167, 139, 250, 0.8);
-            margin-top: -6px;
-            transition: all 0.2s ease;
-        }
-        input[type=range]::-webkit-slider-thumb:hover {
-            transform: scale(1.25);
-            background: #34d399;
-            box-shadow: 0 0 14px rgba(52, 211, 153, 0.9);
-        }
-        input[type=range]::-webkit-slider-runnable-track {
-            width: 100%;
-            height: 6px;
-            cursor: pointer;
-            background: #2a1b4e;
-            border-radius: 3px;
-        }
-    </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Búsqueda de amistad aplicando Lógica Difusa</title>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#09090f;--p1:#12121c;--p2:#1a1a28;--line:#2a2a3d;--tx:#ececf4;--mut:#8b8ba3;--lime:#c6ff3d;--pink:#ff3d81;--cy:#3dd6ff;--bad:#ff5a5a}
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{height:100%}
+body{font-family:'Space Grotesk',sans-serif;background:var(--bg);color:var(--tx);display:flex;flex-direction:column;overflow:hidden}
+.mono{font-family:'Space Mono',monospace}
+.hidden{display:none!important}
+.top{height:60px;flex:none;display:flex;align-items:center;justify-content:space-between;gap:16px;padding:0 24px;border-bottom:1px solid var(--line);background:var(--p1)}
+.brand{display:flex;align-items:center;gap:12px}
+.eq{display:flex;gap:3px;align-items:end;height:24px}.eq i{width:5px;background:var(--lime);border-radius:2px;animation:b 1s ease-in-out infinite}
+.eq i:nth-child(1){height:10px}.eq i:nth-child(2){height:22px;animation-delay:.2s;background:var(--pink)}.eq i:nth-child(3){height:15px;animation-delay:.4s}.eq i:nth-child(4){height:20px;animation-delay:.1s;background:var(--cy)}
+@keyframes b{50%{transform:scaleY(.4)}}
+.top h1{font-size:17px;font-weight:700;letter-spacing:-.01em}
+.crew{font-size:12px;color:var(--mut);text-align:right;line-height:1.4}.crew b{color:var(--lime);font-weight:500;letter-spacing:.1em;font-size:10px;text-transform:uppercase;display:block}
+.app{flex:1;min-height:0;display:grid;grid-template-columns:420px 1fr}
+.left{background:var(--p1);border-right:1px solid var(--line);overflow-y:auto;padding:20px}
+.right{overflow-y:auto;padding:24px 28px 40px}
+h2{font-size:12px;letter-spacing:.16em;text-transform:uppercase;color:var(--lime);margin:0 0 12px;font-weight:700}
+label{font-size:12px;color:var(--mut);display:block;margin-bottom:6px}
+input[type=text]{width:100%;background:var(--p2);border:1px solid var(--line);color:var(--tx);border-radius:8px;padding:10px 12px;font:500 14px 'Space Grotesk';outline:0}
+input[type=text]:focus{border-color:var(--lime)}
+.blk{margin-bottom:22px}
+.th{display:flex;justify-content:space-between;align-items:center}.th b{color:var(--cy);font-size:13px}
+input[type=range]{-webkit-appearance:none;width:100%;height:4px;background:var(--line);border-radius:2px;outline:0;margin:10px 0 2px}
+input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:16px;height:16px;border-radius:50%;background:var(--lime);box-shadow:0 0 0 4px rgba(198,255,61,.2);cursor:pointer}
+.pre{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.pre button{background:var(--p2);border:1px solid var(--line);color:var(--tx);padding:10px;border-radius:8px;font:500 13px 'Space Grotesk';cursor:pointer;text-align:left}
+.pre button:hover{border-color:var(--pink);background:#241a24}
+.grp{font-size:11px;color:var(--pink);letter-spacing:.14em;text-transform:uppercase;margin:18px 0 6px;font-weight:700}
+.sl{padding:10px 0;border-bottom:1px solid var(--line)}
+.sl .r{display:flex;justify-content:space-between;gap:8px;font-size:13px}
+.sl .r span{font-family:'Space Mono';font-size:11px;white-space:nowrap}
+.sl p{font-size:11px;color:var(--mut);margin-top:2px}
+.l0{color:#7c7c92}.l1{color:var(--cy)}.l2{color:#9fe870}.l3{color:var(--lime)}.l4{color:var(--pink)}
+.seg{display:flex;gap:4px;margin-top:8px}
+.seg button{flex:1;background:var(--p2);border:1px solid var(--line);color:var(--mut);padding:8px 2px;border-radius:7px;font:500 11px 'Space Grotesk';cursor:pointer;transition:.15s}
+.seg button:hover{border-color:var(--cy);color:var(--tx)}
+.seg button.on{background:var(--lime);border-color:var(--lime);color:#09090f;font-weight:700}
+.kpis{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-bottom:18px}
+.kpi{background:var(--p1);border:1px solid var(--line);border-radius:12px;padding:14px 16px}
+.kpi small{font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:var(--mut)}
+.kpi b{display:block;font-family:'Space Mono';font-size:22px;color:var(--cy);margin-top:4px}
+.kpi b.s{font-family:'Space Grotesk';font-size:13px;line-height:1.5;color:var(--tx)}
+.acts{display:flex;gap:8px;justify-content:flex-end;margin-bottom:14px;flex-wrap:wrap}
+.acts button{background:var(--p2);border:1px solid var(--line);color:var(--tx);padding:8px 14px;border-radius:8px;font:500 12px 'Space Grotesk';cursor:pointer}
+.acts button:hover{border-color:var(--lime);color:var(--lime)}
+.vec td,.vec th{text-align:center;font-family:'Space Mono';font-size:11px;padding:6px 3px}
+@media print{.left,.tabs,.acts,.top .eq{display:none}.app{display:block}body{overflow:visible;height:auto;background:#fff;color:#000}.right{overflow:visible}#t-banco,#t-alg{display:none!important}}
+.tabs{display:flex;gap:6px;margin-bottom:22px;border-bottom:1px solid var(--line)}
+.tabs button{background:none;border:0;color:var(--mut);font:700 14px 'Space Grotesk';padding:10px 16px;cursor:pointer;border-bottom:2px solid transparent;margin-bottom:-1px}
+.tabs button.on{color:var(--lime);border-bottom-color:var(--lime)}
+.verdict{border-radius:14px;padding:20px 24px;margin-bottom:22px;display:flex;gap:20px;align-items:center;border:1px solid}
+.verdict.ok{background:rgba(198,255,61,.07);border-color:rgba(198,255,61,.4)}
+.verdict.no{background:rgba(255,90,90,.08);border-color:rgba(255,90,90,.45)}
+.verdict .g{font-size:46px;font-weight:700;font-family:'Space Mono';line-height:1}
+.verdict.ok .g{color:var(--lime)}.verdict.no .g{color:var(--bad)}
+.verdict h3{font-size:18px;margin-bottom:4px}.verdict p{font-size:13px;color:var(--mut);line-height:1.55}
+.cols{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:22px;margin-bottom:22px}
+.card{background:var(--p1);border:1px solid var(--line);border-radius:14px;padding:18px}
+.card h3{font-size:13px;letter-spacing:.1em;text-transform:uppercase;color:var(--mut);margin-bottom:12px;font-weight:500}
+.pod{display:flex;gap:12px;align-items:center;padding:10px;border-radius:10px;cursor:pointer;border:1px solid transparent}
+.pod:hover,.pod.sel{background:var(--p2);border-color:var(--line)}
+.pod .n{font-family:'Space Mono';color:var(--pink);font-size:20px;width:28px}
+.pod .a{font-size:28px}.pod b{display:block;font-size:14px}.pod small{color:var(--mut);font-size:11px}
+.pod .v{margin-left:auto;font-family:'Space Mono';font-size:18px;color:var(--lime)}
+.rank{display:flex;align-items:center;gap:10px;padding:7px 8px;border-radius:8px;cursor:pointer;font-size:13px}
+.rank:hover,.rank.sel{background:var(--p2)}
+.rank .p{width:30px;color:var(--mut);font-family:'Space Mono';font-size:11px}
+.rank .nm{width:150px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.rank .bar{flex:1;height:8px;background:var(--line);border-radius:4px;overflow:hidden}.rank .bar i{display:block;height:100%;background:var(--mut)}
+.rank.pass .bar i{background:linear-gradient(90deg,var(--cy),var(--lime))}
+.rank .pc{width:52px;text-align:right;font-family:'Space Mono';font-size:12px}
+.rank.pass .pc{color:var(--lime)}
+.th2{display:flex;gap:10px;font-size:11px;color:var(--mut);margin-top:6px;flex-wrap:wrap}.th2 i{display:inline-block;width:10px;height:10px;border-radius:2px;margin-right:4px;vertical-align:-1px}
+table{width:100%;border-collapse:collapse;font-size:12px}
+td,th{padding:6px 8px;border-bottom:1px solid var(--line);text-align:left}
+th{color:var(--mut);font-weight:500;font-size:11px;letter-spacing:.06em}
+.mx td,.mx th{text-align:center;font-family:'Space Mono';font-size:11px;padding:6px 4px}
+.mx td:nth-child(-n+2),.mx th:nth-child(-n+2){text-align:left;white-space:nowrap}
+.tools{display:flex;gap:10px;margin-bottom:14px}
+.tools button{background:var(--p2);color:var(--tx);border:1px solid var(--line);border-radius:8px;padding:0 14px;font:500 13px 'Space Grotesk';cursor:pointer;white-space:nowrap}
+.fx{font-family:'Space Mono';background:var(--p2);border:1px solid var(--line);border-left:3px solid var(--lime);padding:14px 16px;border-radius:8px;margin:10px 0;font-size:14px}
+.txt p{font-size:14px;line-height:1.7;color:#c9c9dc;margin-bottom:10px}.txt h3{font-size:18px;margin:20px 0 6px;color:var(--tx)}
+@media(max-width:980px){.kpis{grid-template-columns:1fr 1fr}body{overflow:auto;height:auto}.app{display:block}.left,.right{overflow:visible}.cols{grid-template-columns:1fr}.top{height:auto;padding:12px 16px;flex-wrap:wrap}}
+</style>
 </head>
-<body class="min-h-screen flex flex-col justify-between selection:bg-brand-500 selection:text-white">
+<body>
+<div class="top">
+  <div class="brand"><div class="eq"><i></i><i></i><i></i><i></i></div><h1>Búsqueda de amistad aplicando Lógica Difusa</h1></div>
+  <div class="crew"><b>Proyecto Final · IA</b>Erick Alonso Cruz Uribe · Hugo Eligio Rico Garcia · Eber Angeles Ramos</div>
+</div>
 
-    <!-- Header & Navigation -->
-    <header class="sticky top-0 z-50 glass-card border-b border-brand-900/50 px-4 lg:px-8 py-3">
-        <div class="max-w-7xl mx-auto flex flex-col md:flex-row items-center justify-between gap-4">
-            <div class="flex items-center space-x-3">
-                <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-brand-600 to-emeraldCustom-500 flex items-center justify-center shadow-lg shadow-brand-600/30">
-                    <i class="fa-solid fa-compact-disc text-white text-xl animate-spin-slow"></i>
-                </div>
-                <div>
-                    <h1 class="text-lg md:text-xl font-bold bg-gradient-to-r from-violet-300 via-purple-200 to-emerald-300 bg-clip-text text-transparent">
-                        Búsqueda de amistad aplicando Lógica Difusa
-                    </h1>
-                    <p class="text-xs text-slate-400">Inteligencia Artificial • Módulo de Compatibilidad Musical</p>
-                </div>
-            </div>
+<div class="app">
+  <div class="left">
+    <div class="blk"><h2>Tu identidad</h2><label for="userName">Nombre o alias</label><input type="text" id="userName" value="Usuario Actual"></div>
+    <div class="blk"><h2>Exigencia mínima</h2>
+      <div class="th"><label for="thresholdInput" style="margin:0">Umbral de confiabilidad</label><b class="mono" id="thresholdValDisplay">0.65 (65%)</b></div>
+      <input type="hidden" id="thresholdInput" value="0.65"><div class="seg" id="thSeg"></div>
+      <p style="font-size:11px;color:var(--mut)">Si el mejor de los 35 perfiles no lo supera, no hay coincidencia confiable.</p></div>
+    <div class="blk"><h2>Atajos de perfil</h2><div class="pre">
+      <button onclick="loadPreset('rocker')">🎸 Metal / Rocker</button><button onclick="loadPreset('pop')">🎧 Pop & Fiesta</button>
+      <button onclick="loadPreset('lofi')">📚 Lo-Fi & Estudio</button><button onclick="loadPreset('clasico')">🎻 Clásico & Hi-Fi</button></div></div>
+    <h2 style="margin-top:8px">Tus 15 gustos</h2>
+    <div id="featuresGrid"></div>
+  </div>
 
-            <nav class="flex flex-wrap items-center gap-2 text-xs md:text-sm">
-                <a href="#captura" class="px-3 py-1.5 rounded-lg bg-brand-900/40 hover:bg-brand-700/60 text-purple-200 transition border border-brand-700/30">
-                    <i class="fa-solid fa-sliders mr-1.5"></i> Perfil Usuario
-                </a>
-                <a href="#resultados" class="px-3 py-1.5 rounded-lg bg-brand-900/40 hover:bg-brand-700/60 text-purple-200 transition border border-brand-700/30">
-                    <i class="fa-solid fa-chart-pie mr-1.5"></i> Coincidencia
-                </a>
-                <a href="#banco-perfiles" class="px-3 py-1.5 rounded-lg bg-brand-900/40 hover:bg-brand-700/60 text-purple-200 transition border border-brand-700/30">
-                    <i class="fa-solid fa-users mr-1.5"></i> Banco (20)
-                </a>
-                <a href="#fundamento" class="px-3 py-1.5 rounded-lg bg-brand-900/40 hover:bg-brand-700/60 text-purple-200 transition border border-brand-700/30">
-                    <i class="fa-solid fa-book mr-1.5"></i> Algoritmo
-                </a>
-            </nav>
-        </div>
-    </header>
+  <div class="right">
+    <div class="tabs">
+      <button class="on" data-t="t-res">En vivo</button>
+      <button data-t="t-banco">Banco · 35 perfiles</button>
+      <button data-t="t-alg">Algoritmo</button>
+    </div>
 
-    <!-- Main Container -->
-    <main class="max-w-7xl mx-auto w-full px-4 lg:px-8 py-6 space-y-8 flex-grow">
+    <div id="t-res">
+      <div class="acts"><button onclick="resetPerfil()">↺ Reiniciar perfil</button><button onclick="exportarCSV()">⇩ Exportar ranking (CSV)</button><button onclick="window.print()">⎙ Imprimir / PDF</button></div>
+      <div id="kpis" class="kpis"></div>
+      <div id="diagnosticBanner" class="verdict"></div>
+      <div class="cols">
+        <div class="card"><h3>Más compatibles</h3><div id="topMatchCardsGrid"></div></div>
+        <div class="card"><h3 id="bestMatchNameBadge">Radar</h3>
+          <svg id="radar" viewBox="0 0 400 400" style="width:100%;max-height:340px"></svg>
+          <div class="th2"><span><i style="background:var(--lime)"></i>Tú</span><span><i style="background:var(--pink)"></i>Perfil</span><span><i style="background:#fff"></i>Intersección min</span></div></div>
+      </div>
+      <div class="cols">
+        <div class="card"><h3>Ranking completo (clic para comparar)</h3><div id="rankingTableBody"></div></div>
+        <div class="card"><h3>Detalle de las 15 características</h3><div style="overflow-x:auto"><table><thead><tr><th>#</th><th>Tú</th><th>Perfil</th><th>min</th></tr></thead><tbody id="intersectionBarsGrid"></tbody></table></div></div>
+      </div>
+      <div class="card"><h3>Vector difuso de tu perfil actual</h3><div style="overflow-x:auto"><table class="vec"><thead id="vecHead"></thead><tbody id="vecBody"></tbody></table></div></div>
+    </div>
 
-        <!-- Team & Project Card Header -->
-        <section class="glass-card rounded-2xl p-6 relative overflow-hidden">
-            <div class="absolute -right-10 -bottom-10 w-48 h-48 bg-brand-600/10 rounded-full blur-3xl pointer-events-none"></div>
-            <div class="absolute -left-10 -top-10 w-48 h-48 bg-emeraldCustom-500/10 rounded-full blur-3xl pointer-events-none"></div>
-            
-            <div class="flex flex-col lg:flex-row justify-between items-start lg:items-center gap-6 relative z-10">
-                <div class="space-y-2 max-w-2xl">
-                    <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-brand-900/60 border border-brand-500/30 text-brand-400 text-xs font-semibold uppercase tracking-wider">
-                        <i class="fa-solid fa-brain"></i> Sistema de Inferencia Difusa (Intersección de Conjuntos)
-                    </div>
-                    <h2 class="text-2xl md:text-3xl font-extrabold text-white tracking-tight">
-                        Encuentra amigos según tu identidad y hábitos musicales
-                    </h2>
-                    <p class="text-slate-300 text-sm leading-relaxed">
-                        Este módulo mapea 15 aspectos clave en el intervalo difuso <span class="text-emeraldCustom-400 font-mono font-bold">[0.0, 1.0]</span> usando lenguaje natural accesibles (menús y sliders). Posteriormente calcula el grado de intersección difusa (<span class="font-mono text-purple-300">min(μ<sub>A</sub>, μ<sub>B</sub>)</span>) y la similitud de Jaccard contra 20 perfiles almacenados.
-                    </p>
-                </div>
+    <div id="t-banco" class="hidden">
+      <div class="tools"><input type="text" id="searchProfileInput" placeholder="Buscar por nombre o estilo…"><button id="toggleBankTable">Ver / ocultar matriz</button></div>
+      <div class="card" id="bankTableWrapper" style="overflow-x:auto"><table class="mx"><thead><tr id="bankHeaderRow"><th>ID</th><th>Nombre</th></tr></thead><tbody id="bankTableBody"></tbody></table></div>
+    </div>
 
-                <!-- Editable Team Box -->
-                <div class="w-full lg:w-80 glass-card bg-slate-900/80 p-4 rounded-xl border border-brand-700/40">
-                    <div class="flex items-center justify-between mb-2">
-                        <span class="text-xs font-semibold text-purple-300 uppercase tracking-wide">
-                            <i class="fa-solid fa-user-graduate mr-1"></i> Integrantes del Equipo:
-                        </span>
-                        <button id="btnEditTeam" class="text-xs text-emeraldCustom-400 hover:underline">
-                            <i class="fa-solid fa-pen-to-square"></i> Editar
-                        </button>
-                    </div>
-                    <div id="teamDisplayList" class="space-y-1 text-xs text-slate-200 font-medium">
-                        <p class="flex items-center gap-2"><i class="fa-solid fa-circle-user text-brand-400"></i> Estudiante 1 (Nombre Completo)</p>
-                        <p class="flex items-center gap-2"><i class="fa-solid fa-circle-user text-brand-400"></i> Estudiante 2 (Nombre Completo)</p>
-                        <p class="flex items-center gap-2"><i class="fa-solid fa-circle-user text-brand-400"></i> Estudiante 3 (Nombre Completo)</p>
-                    </div>
-                    <!-- Hidden Form for Editing -->
-                    <div id="teamEditForm" class="hidden space-y-2 mt-2">
-                        <input type="text" id="member1Input" class="w-full bg-slate-950 border border-brand-800 rounded px-2 py-1 text-xs text-white" value="Estudiante 1">
-                        <input type="text" id="member2Input" class="w-full bg-slate-950 border border-brand-800 rounded px-2 py-1 text-xs text-white" value="Estudiante 2">
-                        <input type="text" id="member3Input" class="w-full bg-slate-950 border border-brand-800 rounded px-2 py-1 text-xs text-white" value="Estudiante 3">
-                        <button id="btnSaveTeam" class="w-full bg-brand-600 hover:bg-brand-500 text-white font-semibold py-1 rounded text-xs transition">
-                            Guardar Nombres
-                        </button>
-                    </div>
-                </div>
-            </div>
-        </section>
+    <div id="t-alg" class="hidden txt card">
+      <h3 style="margin-top:0">1 · Lógica difusa</h3><p>Los conjuntos difusos permiten grados de pertenencia entre 0 y 1. Una frase como “me gusta moderadamente” se vuelve un número comparable (por ejemplo 0.65).</p>
+      <h3>2 · Intersección de conjuntos</h3><p>Con la T-norma de Zadeh, para cada característica i se toma el mínimo entre tu valor y el de la persona.</p><div class="fx">μ(A∩B)(i) = min( μA(i), μB(i) )</div>
+      <h3>3 · Similitud y umbral</h3><p>La similitud global es la suma de intersecciones entre la suma de uniones. Si la mejor similitud queda por debajo del umbral, el sistema diagnostica que nadie coincide de forma confiable.</p><div class="fx">Similitud = Σ min(uᵢ, pᵢ) / Σ max(uᵢ, pᵢ)</div>
+    </div>
+  </div>
+</div>
 
-        <!-- SECTION 1: USER PROFILE CAPTURE -->
-        <section id="captura" class="space-y-6">
-            <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 border-b border-brand-900/50 pb-4">
-                <div>
-                    <h2 class="text-xl md:text-2xl font-bold text-white flex items-center gap-2">
-                        <i class="fa-solid fa-sliders text-brand-400"></i> 
-                        Captura del Perfil del Usuario
-                    </h2>
-                    <p class="text-xs text-slate-400">Expresa tus hábitos y gustos en lenguaje ambiguo/accesible. Se mapearán en tiempo real a valores difusos [0.0 - 1.0].</p>
-                </div>
-
-                <!-- Presets Quick Loader -->
-                <div class="flex flex-wrap items-center gap-2">
-                    <span class="text-xs text-slate-400 font-medium">Perfiles Rápidos:</span>
-                    <button onclick="loadPreset('rocker')" class="px-2.5 py-1 text-xs rounded bg-purple-900/40 hover:bg-purple-800/60 border border-purple-700/50 text-purple-200 transition">
-                        🎸 Metal / Rocker
-                    </button>
-                    <button onclick="loadPreset('pop')" class="px-2.5 py-1 text-xs rounded bg-pink-900/40 hover:bg-pink-800/60 border border-pink-700/50 text-pink-200 transition">
-                        🎧 Pop & Fiesta
-                    </button>
-                    <button onclick="loadPreset('lofi')" class="px-2.5 py-1 text-xs rounded bg-emerald-900/40 hover:bg-emerald-800/60 border border-emerald-700/50 text-emerald-200 transition">
-                        📚 Lo-Fi & Estudio
-                    </button>
-                    <button onclick="loadPreset('clasico')" class="px-2.5 py-1 text-xs rounded bg-amber-900/40 hover:bg-amber-800/60 border border-amber-700/50 text-amber-200 transition">
-                        🎻 Clásico & Hi-Fi
-                    </button>
-                </div>
-            </div>
-
-            <!-- User Name & Threshold Setting -->
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-4 glass-card p-5 rounded-2xl">
-                <div class="md:col-span-1 space-y-1.5">
-                    <label for="userName" class="block text-xs font-semibold text-purple-300 uppercase">
-                        <i class="fa-solid fa-id-card mr-1"></i> Nombre de Usuario o Alias:
-                    </label>
-                    <input type="text" id="userName" value="Usuario Actual" class="w-full bg-slate-950/80 border border-brand-800/80 rounded-xl px-4 py-2.5 text-sm text-white focus:outline-none focus:border-brand-500 transition">
-                </div>
-
-                <!-- Fuzzy Reliability Threshold Slider -->
-                <div class="md:col-span-2 space-y-1.5 bg-brand-950/40 p-3 rounded-xl border border-brand-800/40">
-                    <div class="flex justify-between items-center">
-                        <label for="thresholdInput" class="text-xs font-semibold text-emeraldCustom-400 uppercase tracking-wide flex items-center gap-1.5">
-                            <i class="fa-solid fa-filter text-emeraldCustom-400"></i>
-                            Umbral de Confiabilidad Mínima (Threshold):
-                        </label>
-                        <span id="thresholdValDisplay" class="font-mono text-sm font-bold text-emeraldCustom-400 bg-emerald-950/80 px-2.5 py-0.5 rounded border border-emerald-500/30">
-                            0.65 (65%)
-                        </span>
-                    </div>
-                    <input type="range" id="thresholdInput" min="0.30" max="0.95" step="0.05" value="0.65" class="w-full">
-                    <p class="text-[11px] text-slate-400">
-                        Si el mejor candidato de los 20 perfiles no supera este valor de coincidencia, el sistema emitirá el diagnóstico de coincidencia no confiable.
-                    </p>
-                </div>
-            </div>
-
-            <!-- 15 Features Grid -->
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4" id="featuresGrid">
-                <!-- Javascript will inject 15 feature cards here -->
-            </div>
-
-            <!-- Execution Button -->
-            <div class="flex justify-center pt-2">
-                <button id="btnCompute" class="w-full md:w-auto px-8 py-4 rounded-2xl bg-gradient-to-r from-brand-600 via-purple-600 to-emeraldCustom-500 text-white font-bold text-base shadow-xl shadow-brand-600/30 hover:scale-[1.02] active:scale-95 transition-all duration-200 flex items-center justify-center gap-3">
-                    <i class="fa-solid fa-wand-magic-sparkles text-xl"></i>
-                    <span>EJECUTAR BÚSQUEDA DIFUSA DE AMISTAD</span>
-                </button>
-            </div>
-        </section>
-
-        <!-- SECTION 2: FUZZY SEARCH RESULTS & DIAGNOSTIC -->
-        <section id="resultados" class="space-y-6 pt-4 border-t border-brand-900/50">
-            <div class="flex justify-between items-center">
-                <div>
-                    <h2 class="text-xl md:text-2xl font-bold text-white flex items-center gap-2">
-                        <i class="fa-solid fa-chart-line text-emeraldCustom-400"></i> 
-                        Resultado del Módulo de Búsqueda
-                    </h2>
-                    <p class="text-xs text-slate-400">Evaluación del grado de pertenencia e intersección difusa.</p>
-                </div>
-            </div>
-
-            <!-- Result Diagnostic Banner (Appears here) -->
-            <div id="diagnosticBanner" class="hidden rounded-2xl p-6 border transition-all duration-300">
-                <!-- Javascript Populates Banner Content -->
-            </div>
-
-            <!-- Top Compatible Profiles Showcase -->
-            <div id="topMatchesContainer" class="hidden space-y-6">
-                <h3 class="text-lg font-bold text-slate-200 flex items-center gap-2">
-                    <i class="fa-solid fa-crown text-amber-400"></i> Perfil(es) con Mayor Grado de Coincidencia Difusa
-                </h3>
-                
-                <div id="topMatchCardsGrid" class="grid grid-cols-1 lg:grid-cols-2 gap-6">
-                    <!-- Top Match Cards injected by JS -->
-                </div>
-            </div>
-
-            <!-- Detailed Breakdown Chart / Intersection Matrix for Top Match -->
-            <div id="detailIntersectionSection" class="hidden glass-card p-6 rounded-2xl space-y-4">
-                <div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-2">
-                    <div>
-                        <h4 class="text-base font-bold text-white flex items-center gap-2">
-                            <i class="fa-solid fa-diagram-project text-brand-400"></i>
-                            Desglose Vectorial de Intersección Atributo por Atributo
-                        </h4>
-                        <p class="text-xs text-slate-400">Gráfico que ilustra <span class="font-mono text-purple-300">μ<sub>Usuario</sub>(i)</span>, <span class="font-mono text-emeraldCustom-400">μ<sub>Perfil</sub>(i)</span> y el resultado de la intersección <span class="font-mono text-amber-300">min(u<sub>i</sub>, p<sub>i</sub>)</span>.</p>
-                    </div>
-                    <span id="bestMatchNameBadge" class="px-3 py-1 bg-brand-900/80 border border-brand-500/40 rounded-full text-xs font-semibold text-purple-200">
-                        Comparando con: -
-                    </span>
-                </div>
-
-                <!-- Attribute Comparison Bars -->
-                <div id="intersectionBarsGrid" class="space-y-3 pt-2">
-                    <!-- Javascript populates 15 attribute breakdown bars -->
-                </div>
-            </div>
-
-            <!-- Full Ranking Table of 20 Profiles -->
-            <div class="glass-card p-6 rounded-2xl space-y-4">
-                <div class="flex justify-between items-center">
-                    <h3 class="text-base font-bold text-white flex items-center gap-2">
-                        <i class="fa-solid fa-list-ol text-purple-400"></i>
-                        Ranking Completo de Compatibilidad (20 Personas)
-                    </h3>
-                    <span class="text-xs text-slate-400">Ordenado por Índice de Similitud Jaccard Difuso</span>
-                </div>
-
-                <div class="overflow-x-auto">
-                    <table class="w-full text-left text-xs text-slate-300">
-                        <thead class="bg-brand-950/80 text-purple-200 font-semibold uppercase tracking-wider border-b border-brand-800/60">
-                            <tr>
-                                <th class="py-3 px-3"># Pos</th>
-                                <th class="py-3 px-3">ID Persona</th>
-                                <th class="py-3 px-3">Nombre</th>
-                                <th class="py-3 px-3">Estilo Musical Principal</th>
-                                <th class="py-3 px-3 text-center">Suma Intersecciones <br><span class="font-mono lowercase">∑ min(u, p)</span></th>
-                                <th class="py-3 px-3 text-center">Similitud Jaccard <br><span class="font-mono lowercase">∑min / ∑max</span></th>
-                                <th class="py-3 px-3 text-center">Estado de Umbral</th>
-                            </tr>
-                        </thead>
-                        <tbody id="rankingTableBody" class="divide-y divide-brand-900/40">
-                            <!-- Injected by JS -->
-                        </tbody>
-                    </table>
-                </div>
-            </div>
-        </section>
-
-        <!-- SECTION 3: PRE-LOADED PROFILE BANK (20 PERSONS) -->
-        <section id="banco-perfiles" class="space-y-6 pt-4 border-t border-brand-900/50">
-            <div class="flex flex-col md:flex-row md:items-center justify-between gap-4">
-                <div>
-                    <h2 class="text-xl md:text-2xl font-bold text-white flex items-center gap-2">
-                        <i class="fa-solid fa-database text-brand-400"></i> 
-                        Banco de Perfiles Pre-cargado (20 Personas)
-                    </h2>
-                    <p class="text-xs text-slate-400">Matriz de características difusas precapturadas en el servidor/sistema.</p>
-                </div>
-                <div class="flex items-center gap-3">
-                    <input type="text" id="searchProfileInput" placeholder="Buscar por nombre o género..." class="bg-slate-950 border border-brand-800 rounded-xl px-3 py-1.5 text-xs text-white focus:outline-none focus:border-brand-500 w-60">
-                    <button id="toggleBankTable" class="px-3 py-1.5 bg-brand-900/60 hover:bg-brand-800 text-purple-200 rounded-xl text-xs font-semibold border border-brand-700/40 transition">
-                        <i class="fa-solid fa-table mr-1"></i> Expandir/Colapsar Tabla Matriz
-                    </button>
-                </div>
-            </div>
-
-            <!-- Profile Matrix Table -->
-            <div id="bankTableWrapper" class="glass-card p-4 rounded-2xl overflow-x-auto">
-                <table class="w-full text-left text-[11px] font-mono text-slate-300">
-                    <thead class="bg-brand-950 text-purple-300 uppercase border-b border-brand-800">
-                        <tr id="bankHeaderRow">
-                            <th class="p-2 border-r border-brand-900">ID</th>
-                            <th class="p-2 border-r border-brand-900 min-w-[140px]">Nombre</th>
-                            <!-- 15 Feature headers injected dynamically -->
-                        </tr>
-                    </thead>
-                    <tbody id="bankTableBody" class="divide-y divide-brand-900/40">
-                        <!-- 20 Rows injected by JS -->
-                    </tbody>
-                </table>
-            </div>
-        </section>
-
-        <!-- SECTION 4: MATHEMATICAL FOUNDATION & DOCUMENTATION -->
-        <section id="fundamento" class="glass-card p-6 rounded-2xl space-y-6 pt-6 border-t border-brand-900/50">
-            <div class="border-b border-brand-900/60 pb-3">
-                <h2 class="text-xl font-bold text-white flex items-center gap-2">
-                    <i class="fa-solid fa-book-bookmark text-emeraldCustom-400"></i>
-                    Fundamento Matemático y Funcionamiento del Algoritmo
-                </h2>
-                <p class="text-xs text-slate-400">Resumen del marco teórico para el Reporte del Proyecto y Evaluación.</p>
-            </div>
-
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-6 text-xs leading-relaxed text-slate-300">
-                <div class="space-y-2 bg-slate-950/60 p-4 rounded-xl border border-brand-900">
-                    <h3 class="font-bold text-purple-300 text-sm flex items-center gap-1.5">
-                        <span class="w-5 h-5 rounded-full bg-brand-700 text-white flex items-center justify-center text-[10px]">1</span>
-                        Lógica Difusa (Fuzzy Logic)
-                    </h3>
-                    <p>
-                        A diferencia de la lógica booleana tradicional ({0, 1}), los conjuntos difusos permiten grados de pertenencia parciales en el intervalo continuo <span class="font-mono text-emeraldCustom-400">[0.0, 1.0]</span>.
-                    </p>
-                    <p>
-                        Esto permite capturar la ambigüedad del lenguaje cotidiano (ej: "Me gusta el rock moderadamente" = 0.65).
-                    </p>
-                </div>
-
-                <div class="space-y-2 bg-slate-950/60 p-4 rounded-xl border border-brand-900">
-                    <h3 class="font-bold text-purple-300 text-sm flex items-center gap-1.5">
-                        <span class="w-5 h-5 rounded-full bg-brand-700 text-white flex items-center justify-center text-[10px]">2</span>
-                        Intersección Difusa ($\cap$)
-                    </h3>
-                    <p>
-                        La intersección de dos conjuntos difusos $A$ (Usuario) y $B$ (Perfil) para la característica $i$ se define según el operador T-norma de Zadeh como el valor mínimo:
-                    </p>
-                    <div class="bg-brand-950 p-2 rounded text-center font-mono text-purple-200 border border-brand-800">
-                        &mu;<sub>A &cap; B</sub>(i) = min(&mu;<sub>A</sub>(i), &mu;<sub>B</sub>(i))
-                    </div>
-                    <p>Representa el punto común de coincidencia en el gusto o hábito $i$.</p>
-                </div>
-
-                <div class="space-y-2 bg-slate-950/60 p-4 rounded-xl border border-brand-900">
-                    <h3 class="font-bold text-purple-300 text-sm flex items-center gap-1.5">
-                        <span class="w-5 h-5 rounded-full bg-brand-700 text-white flex items-center justify-center text-[10px]">3</span>
-                        Coeficiente de Jaccard & Umbral
-                    </h3>
-                    <p>
-                        El grado global de similitud entre la persona $U$ y la persona $P$ se calcula evaluando la razón entre la suma de intersecciones y la suma de uniones:
-                    </p>
-                    <div class="bg-brand-950 p-2 rounded text-center font-mono text-emeraldCustom-400 border border-brand-800">
-                        Similitud = &sum; min(u<sub>i</sub>, p<sub>i</sub>) / &sum; max(u<sub>i</sub>, p<sub>i</sub>)
-                    </div>
-                    <p>Si $\text{Similitud}_{\max} < \text{Umbral}$, se determina que no hay compatibilidad confiable.</p>
-                </div>
-            </div>
-        </section>
-
-    </main>
-
-    <!-- Footer -->
-    <footer class="glass-card border-t border-brand-900/60 py-6 px-4 text-center text-xs text-slate-400 mt-12">
-        <div class="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-center gap-3">
-            <div>
-                <p class="font-semibold text-slate-200">Proyecto Final: Búsqueda de amistad aplicando Lógica Difusa</p>
-                <p class="text-[11px] text-slate-400">Inteligencia Artificial • Desarrollado para servidor web o GitHub Pages</p>
-            </div>
-            <div class="flex items-center gap-4 text-slate-400">
-                <span class="flex items-center gap-1"><i class="fa-solid fa-code text-brand-400"></i> HTML5 + JS ES6 + Tailwind</span>
-                <span class="flex items-center gap-1"><i class="fa-solid fa-check-circle text-emeraldCustom-400"></i> 100% Funcional sin backend</span>
-            </div>
-        </div>
-    </footer>
-
-    <!-- JAVASCRIPT ENGINE & LOGIC -->
-    <script>
-        // =========================================================================
-        // 1. DEFINITION OF THE 15 PERSONALITY & MUSIC CHARACTERISTICS
-        // =========================================================================
-        const FEATURES = [
+<script>
+const FEATURES = [
             { id: 1,  name: "Rock / Metal", icon: "fa-solid fa-guitar", category: "Géneros", desc: "Apreciación por guitarras, riffs pesados y subgéneros." },
             { id: 2,  name: "Pop / Pop Urbano", icon: "fa-solid fa-icons", category: "Géneros", desc: "Afinidad por melodías pegajosas, charts y ritmos pop." },
             { id: 3,  name: "Música Latina / Salsa / Reggaetón", icon: "fa-solid fa-fire", category: "Géneros", desc: "Gusto por ritmos caribeños, bailables y del género urbano." },
@@ -461,20 +166,7 @@
             { id: 14, name: "Interés en tocar instrumentos / producción", icon: "fa-solid fa-sliders", category: "Práctica", desc: "Habilidad o deseo de crear tu propia música." },
             { id: 15, name: "Exigencia en calidad de audio (Hi-Fi)", icon: "fa-solid fa-volume-high", category: "Equipo", desc: "Atención a formatos de audio y audífonos de alta fidelidad." }
         ];
-
-        // Natural language label mapping based on continuous fuzzy value
-        function getFuzzyTextLabel(val) {
-            if (val <= 0.15) return { label: "Nulo / Nunca", color: "text-slate-400" };
-            if (val <= 0.40) return { label: "Leve / Ocasional", color: "text-blue-400" };
-            if (val <= 0.70) return { label: "Moderado / Frecuente", color: "text-purple-300" };
-            if (val <= 0.90) return { label: "Alto / Muy Importante", color: "text-emeraldCustom-400" };
-            return { label: "Fanático / Indispensable", color: "text-amber-400 font-bold" };
-        }
-
-        // =========================================================================
-        // 2. PRE-LOADED PROFILE BANK (20 PERSONS WITH REALISTIC FUZZY VECTORS)
-        // =========================================================================
-        const PROFILES_BANK = [
+const PROFILES_BANK = [
             { id: 1,  nombre: "Sofía Martínez", bio: "Melómana Indie & Chillout", avatar: "👩‍🎤", caracteristicas: [0.30, 0.45, 0.20, 0.60, 0.35, 0.95, 0.70, 0.90, 0.65, 0.90, 0.90, 0.40, 0.95, 0.40, 0.85] },
             { id: 2,  nombre: "Mateo Fernández", bio: "Guitarrista Metal & Prog", avatar: "👨‍🎤", caracteristicas: [0.95, 0.15, 0.10, 0.30, 0.40, 0.60, 0.50, 0.95, 0.90, 0.70, 0.50, 0.80, 0.30, 0.90, 0.90] },
             { id: 3,  nombre: "Valentina Gómez", bio: "Fanática de Pop Urbano & Fitness", avatar: "👩", caracteristicas: [0.15, 0.95, 0.90, 0.70, 0.80, 0.25, 0.10, 0.90, 0.75, 0.60, 0.30, 0.95, 0.40, 0.10, 0.40] },
@@ -494,470 +186,159 @@
             { id: 17, nombre: "Paula Herrera", bio: "Melómana Eclectica & Exploradora", avatar: "🌐", caracteristicas: [0.60, 0.65, 0.65, 0.60, 0.60, 0.70, 0.60, 0.95, 0.75, 0.98, 0.70, 0.60, 0.70, 0.40, 0.65] },
             { id: 18, nombre: "Samuel Ortiz", bio: "Hardcore Rock & Conciertos", avatar: "⚡", caracteristicas: [0.96, 0.20, 0.15, 0.40, 0.45, 0.50, 0.20, 0.90, 0.95, 0.50, 0.30, 0.75, 0.20, 0.60, 0.70] },
             { id: 19, nombre: "Lucía Medina", bio: "Baladas Pop & Relajación", avatar: "🌸", caracteristicas: [0.15, 0.90, 0.60, 0.30, 0.35, 0.50, 0.40, 0.75, 0.40, 0.50, 0.60, 0.30, 0.92, 0.15, 0.50] },
-            { id: 20, nombre: "Fernando Reyes", bio: "Tropical & Fiesta Caribeña", avatar: "🎺", caracteristicas: [0.15, 0.70, 0.96, 0.50, 0.55, 0.20, 0.10, 0.85, 0.80, 0.55, 0.20, 0.80, 0.30, 0.40, 0.40] }
+            { id: 20, nombre: "Fernando Reyes", bio: "Tropical & Fiesta Caribeña", avatar: "🎺", caracteristicas: [0.15, 0.70, 0.96, 0.50, 0.55, 0.20, 0.10, 0.85, 0.80, 0.55, 0.20, 0.80, 0.30, 0.40, 0.40] },
+            { id: 21, nombre: "Ximena Cortés", bio: "Cantautora Folk & Acústico", avatar: "🪕", caracteristicas: [0.30, 0.40, 0.35, 0.15, 0.20, 0.85, 0.60, 0.85, 0.55, 0.80, 0.75, 0.25, 0.85, 0.90, 0.70] },
+            { id: 22, nombre: "Héctor Salazar", bio: "Fan de Cumbia & Sonidera", avatar: "🪗", caracteristicas: [0.10, 0.55, 0.95, 0.30, 0.35, 0.20, 0.10, 0.90, 0.80, 0.45, 0.15, 0.70, 0.30, 0.35, 0.30] },
+            { id: 23, nombre: "Renata Aguilar", bio: "K-Pop & Dance Cover", avatar: "💖", caracteristicas: [0.10, 0.97, 0.30, 0.75, 0.40, 0.35, 0.10, 0.95, 0.85, 0.90, 0.35, 0.90, 0.40, 0.45, 0.50] },
+            { id: 24, nombre: "Iván Cabrera", bio: "Productor Techno Underground", avatar: "🎛️", caracteristicas: [0.25, 0.25, 0.20, 0.97, 0.45, 0.45, 0.35, 0.95, 0.90, 0.90, 0.55, 0.80, 0.45, 0.95, 0.92] },
+            { id: 25, nombre: "Karla Domínguez", bio: "Rap Consciente & Poeta", avatar: "📝", caracteristicas: [0.30, 0.35, 0.55, 0.35, 0.96, 0.70, 0.30, 0.88, 0.70, 0.85, 0.70, 0.45, 0.60, 0.75, 0.65] },
+            { id: 26, nombre: "Óscar Palacios", bio: "Jazz & Blues en Vivo", avatar: "🎷", caracteristicas: [0.45, 0.25, 0.30, 0.20, 0.30, 0.65, 0.85, 0.90, 0.85, 0.85, 0.80, 0.25, 0.75, 0.88, 0.92] },
+            { id: 27, nombre: "Fernanda Ibarra", bio: "Estudiante de Medicina Lo-Fi", avatar: "🩺", caracteristicas: [0.20, 0.40, 0.25, 0.35, 0.35, 0.90, 0.70, 0.80, 0.25, 0.65, 0.97, 0.30, 0.92, 0.20, 0.55] },
+            { id: 28, nombre: "Ricardo Zamora", bio: "Corridos & Regional Mexicano", avatar: "🤠", caracteristicas: [0.15, 0.45, 0.75, 0.15, 0.30, 0.20, 0.10, 0.85, 0.75, 0.40, 0.15, 0.60, 0.35, 0.45, 0.30] },
+            { id: 29, nombre: "Abril Cervantes", bio: "Pop Punk & Emo Nostálgico", avatar: "🖤", caracteristicas: [0.75, 0.60, 0.20, 0.30, 0.35, 0.70, 0.15, 0.90, 0.88, 0.65, 0.35, 0.70, 0.45, 0.55, 0.60] },
+            { id: 30, nombre: "Tomás Villarreal", bio: "Runner con Playlists Motivacionales", avatar: "👟", caracteristicas: [0.50, 0.70, 0.55, 0.75, 0.65, 0.30, 0.10, 0.85, 0.60, 0.55, 0.25, 0.97, 0.25, 0.15, 0.40] },
+            { id: 31, nombre: "Regina Lozano", bio: "Violonchelista de Orquesta Juvenil", avatar: "🎼", caracteristicas: [0.30, 0.30, 0.20, 0.15, 0.15, 0.55, 0.97, 0.88, 0.65, 0.70, 0.90, 0.20, 0.85, 0.92, 0.88] },
+            { id: 32, nombre: "Emilio Garza", bio: "Audiófilo de Vinilos & Hi-Fi", avatar: "💿", caracteristicas: [0.60, 0.30, 0.20, 0.25, 0.30, 0.70, 0.65, 0.90, 0.60, 0.75, 0.65, 0.35, 0.70, 0.40, 0.98] },
+            { id: 33, nombre: "Julieta Montes", bio: "Bossa Nova & Música de Cafetería", avatar: "☕", caracteristicas: [0.15, 0.40, 0.45, 0.20, 0.20, 0.80, 0.55, 0.75, 0.35, 0.60, 0.80, 0.15, 0.90, 0.30, 0.55] },
+            { id: 34, nombre: "Sebastián Ochoa", bio: "Gamer: Bandas Sonoras & Synthwave", avatar: "🎮", caracteristicas: [0.40, 0.35, 0.15, 0.85, 0.50, 0.60, 0.60, 0.92, 0.45, 0.80, 0.85, 0.40, 0.55, 0.60, 0.75] },
+            { id: 35, nombre: "Paulina Rangel", bio: "Fiestera de Reggaetón Viejo & Pop", avatar: "🪩", caracteristicas: [0.15, 0.85, 0.97, 0.65, 0.70, 0.20, 0.05, 0.85, 0.88, 0.50, 0.15, 0.88, 0.30, 0.20, 0.35] }
         ];
-
-        // Preset user configurations
-        const PRESETS = {
+const PRESETS = {
             rocker: [0.95, 0.20, 0.10, 0.35, 0.40, 0.60, 0.45, 0.90, 0.85, 0.65, 0.50, 0.75, 0.30, 0.80, 0.85],
             pop:    [0.20, 0.95, 0.90, 0.65, 0.75, 0.30, 0.15, 0.85, 0.80, 0.70, 0.30, 0.90, 0.40, 0.20, 0.45],
             lofi:   [0.25, 0.35, 0.20, 0.50, 0.45, 0.95, 0.65, 0.90, 0.30, 0.85, 0.98, 0.35, 0.95, 0.35, 0.75],
             clasico:[0.30, 0.20, 0.15, 0.20, 0.10, 0.65, 0.98, 0.85, 0.50, 0.70, 0.90, 0.20, 0.80, 0.85, 0.98]
         };
+let userVector = Array(15).fill(0.5), selectedId = null;
+const $ = id => document.getElementById(id);
+const esc = s => String(s).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+function getFuzzyTextLabel(v){
+  if(v<=0.15) return {label:"Nulo",color:"l0"};
+  if(v<=0.40) return {label:"Leve",color:"l1"};
+  if(v<=0.70) return {label:"Moderado",color:"l2"};
+  if(v<=0.90) return {label:"Alto",color:"l3"};
+  return {label:"Indispensable",color:"l4"};
+}
+function setLabel(i,v){const t=$('fuzzyTextDisplay_'+i),x=getFuzzyTextLabel(v);t.innerText=`${v.toFixed(2)} ${x.label}`;t.className=x.color;document.querySelectorAll('#seg_'+i+' button').forEach((b,k)=>b.classList.toggle('on',k===lvl(v)));}
+const LV=[["Nulo",0.10],["Leve",0.30],["Medio",0.55],["Alto",0.80],["Máx",0.95]];
+const lvl=v=>v<=0.15?0:v<=0.40?1:v<=0.70?2:v<=0.90?3:4;
+const TH=[0.5,0.6,0.65,0.7,0.8,0.9];
+let lastSorted=[];
+const GRUPOS=[[0,"Géneros"],[7,"Hábitos de escucha"],[10,"Usos y práctica"]];
+document.addEventListener("DOMContentLoaded",()=>{renderFeaturesGrid();renderPreloadedBankTable();setupEventListeners();executeFuzzySearch();});
 
-        // Current state
-        let userVector = Array(15).fill(0.50);
-
-        // =========================================================================
-        // 3. UI INITIALIZATION & EVENT HANDLERS
-        // =========================================================================
-        document.addEventListener("DOMContentLoaded", () => {
-            renderFeaturesGrid();
-            renderPreloadedBankTable();
-            setupEventListeners();
-            // Perform initial search computation
-            executeFuzzySearch();
-        });
-
-        // Render the 15 input cards
-        function renderFeaturesGrid() {
-            const grid = document.getElementById("featuresGrid");
-            grid.innerHTML = "";
-
-            FEATURES.forEach((feat, idx) => {
-                const initialVal = userVector[idx];
-                const fuzzyInfo = getFuzzyTextLabel(initialVal);
-
-                const card = document.createElement("div");
-                card.className = "glass-card glass-card-hover p-4 rounded-xl space-y-3 transition border border-brand-900/60";
-                card.innerHTML = `
-                    <div class="flex items-center justify-between">
-                        <div class="flex items-center space-x-2.5">
-                            <div class="w-7 h-7 rounded-lg bg-brand-900/80 text-brand-400 flex items-center justify-center text-xs">
-                                <i class="${feat.icon}"></i>
-                            </div>
-                            <span class="text-xs font-bold text-slate-200">${feat.id}. ${feat.name}</span>
-                        </div>
-                        <span id="fuzzyValDisplay_${idx}" class="font-mono text-xs font-bold text-emeraldCustom-400 bg-slate-950 px-2 py-0.5 rounded border border-brand-800">
-                            ${initialVal.toFixed(2)}
-                        </span>
-                    </div>
-                    <p class="text-[11px] text-slate-400 leading-snug">${feat.desc}</p>
-                    <div class="space-y-1">
-                        <input type="range" id="slider_${idx}" min="0.00" max="1.00" step="0.05" value="${initialVal}" class="w-full">
-                        <div class="flex justify-between items-center text-[10px]">
-                            <span class="text-slate-500">0.0 (Nulo)</span>
-                            <span id="fuzzyTextDisplay_${idx}" class="${fuzzyInfo.color}">${fuzzyInfo.label}</span>
-                            <span class="text-slate-500">1.0 (Máx)</span>
-                        </div>
-                    </div>
-                `;
-                grid.appendChild(card);
-
-                // Slider live event
-                const slider = card.querySelector(`#slider_${idx}`);
-                slider.addEventListener("input", (e) => {
-                    const val = parseFloat(e.target.value);
-                    userVector[idx] = val;
-                    document.getElementById(`fuzzyValDisplay_${idx}`).innerText = val.toFixed(2);
-                    const info = getFuzzyTextLabel(val);
-                    const textDisplay = document.getElementById(`fuzzyTextDisplay_${idx}`);
-                    textDisplay.innerText = info.label;
-                    textDisplay.className = info.color;
-                });
-            });
-        }
-
-        // Setup global listeners
-        function setupEventListeners() {
-            // Threshold slider
-            const thresholdInput = document.getElementById("thresholdInput");
-            thresholdInput.addEventListener("input", (e) => {
-                const val = parseFloat(e.target.value);
-                document.getElementById("thresholdValDisplay").innerText = `${val.toFixed(2)} (${Math.round(val*100)}%)`;
-            });
-
-            // Compute button
-            document.getElementById("btnCompute").addEventListener("click", () => {
-                executeFuzzySearch();
-                document.getElementById("resultados").scrollIntoView({ behavior: 'smooth' });
-            });
-
-            // Editable team functionality
-            const btnEdit = document.getElementById("btnEditTeam");
-            const btnSave = document.getElementById("btnSaveTeam");
-            const displayList = document.getElementById("teamDisplayList");
-            const editForm = document.getElementById("teamEditForm");
-
-            btnEdit.addEventListener("click", () => {
-                displayList.classList.add("hidden");
-                editForm.classList.remove("hidden");
-            });
-
-            btnSave.addEventListener("click", () => {
-                const m1 = document.getElementById("member1Input").value || "Estudiante 1";
-                const m2 = document.getElementById("member2Input").value || "Estudiante 2";
-                const m3 = document.getElementById("member3Input").value || "Estudiante 3";
-
-                displayList.innerHTML = `
-                    <p class="flex items-center gap-2"><i class="fa-solid fa-circle-user text-brand-400"></i> ${m1}</p>
-                    <p class="flex items-center gap-2"><i class="fa-solid fa-circle-user text-brand-400"></i> ${m2}</p>
-                    <p class="flex items-center gap-2"><i class="fa-solid fa-circle-user text-brand-400"></i> ${m3}</p>
-                `;
-                displayList.classList.remove("hidden");
-                editForm.classList.add("hidden");
-            });
-
-            // Bank Table Toggle
-            document.getElementById("toggleBankTable").addEventListener("click", () => {
-                const wrapper = document.getElementById("bankTableWrapper");
-                wrapper.classList.toggle("hidden");
-            });
-
-            // Bank Search Filter
-            document.getElementById("searchProfileInput").addEventListener("input", (e) => {
-                const q = e.target.value.toLowerCase();
-                const rows = document.querySelectorAll("#bankTableBody tr");
-                rows.forEach(r => {
-                    const text = r.innerText.toLowerCase();
-                    r.style.display = text.includes(q) ? "" : "none";
-                });
-            });
-        }
-
-        // Load Preset into inputs
-        function loadPreset(presetKey) {
-            if (!PRESETS[presetKey]) return;
-            userVector = [...PRESETS[presetKey]];
-            userVector.forEach((val, idx) => {
-                const slider = document.getElementById(`slider_${idx}`);
-                if (slider) {
-                    slider.value = val;
-                    document.getElementById(`fuzzyValDisplay_${idx}`).innerText = val.toFixed(2);
-                    const info = getFuzzyTextLabel(val);
-                    const textDisplay = document.getElementById(`fuzzyTextDisplay_${idx}`);
-                    textDisplay.innerText = info.label;
-                    textDisplay.className = info.color;
-                }
-            });
-            executeFuzzySearch();
-        }
-
-        // =========================================================================
-        // 4. FUZZY LOGIC ENGINE (INTERSECTION & JACCARD SIMILARITY)
-        // =========================================================================
-        function executeFuzzySearch() {
-            const userName = document.getElementById("userName").value || "Usuario Actual";
-            const threshold = parseFloat(document.getElementById("thresholdInput").value);
-
-            // Compute Fuzzy Similarity for each profile in the bank
-            const results = PROFILES_BANK.map(profile => {
-                let sumMin = 0;
-                let sumMax = 0;
-                let intersectionVector = [];
-
-                for (let i = 0; i < 15; i++) {
-                    const u = userVector[i];
-                    const p = profile.caracteristicas[i];
-                    const minVal = Math.min(u, p);
-                    const maxVal = Math.max(u, p);
-
-                    intersectionVector.push(minVal);
-                    sumMin += minVal;
-                    sumMax += maxVal;
-                }
-
-                // Jaccard Fuzzy Similarity = Sum(Min) / Sum(Max)
-                const jaccardSim = sumMax > 0 ? (sumMin / sumMax) : 0;
-                // Mean Intersection Degree = Sum(Min) / 15
-                const meanIntersection = sumMin / 15;
-
-                return {
-                    profile: profile,
-                    sumMin: sumMin,
-                    sumMax: sumMax,
-                    intersectionVector: intersectionVector,
-                    jaccardSim: jaccardSim,
-                    meanIntersection: meanIntersection,
-                    passedThreshold: jaccardSim >= threshold
-                };
-            });
-
-            // Sort results descending by Jaccard Similarity
-            results.sort((a, b) => b.jaccardSim - a.jaccardSim);
-
-            const topMatch = results[0];
-
-            // Update UI based on threshold rule
-            updateDiagnosticUI(topMatch, threshold, results, userName);
-        }
-
-        // =========================================================================
-        // 5. RESULTS UI DISPLAY & DIAGNOSTIC RENDER
-        // =========================================================================
-        function updateDiagnosticUI(topMatch, threshold, sortedResults, userName) {
-            const banner = document.getElementById("diagnosticBanner");
-            const topMatchesContainer = document.getElementById("topMatchesContainer");
-            const topMatchCardsGrid = document.getElementById("topMatchCardsGrid");
-            const detailSection = document.getElementById("detailIntersectionSection");
-
-            banner.classList.remove("hidden");
-
-            // CHECK THRESHOLD DIAGNOSTIC RULE
-            if (topMatch.jaccardSim < threshold) {
-                // FAIL THRESHOLD
-                banner.className = "rounded-2xl p-6 bg-red-950/70 border border-red-600/50 text-red-200 space-y-3 shadow-xl";
-                banner.innerHTML = `
-                    <div class="flex items-start gap-4">
-                        <div class="w-12 h-12 rounded-xl bg-red-900/80 text-red-400 flex items-center justify-center text-2xl flex-shrink-0 border border-red-700/50">
-                            <i class="fa-solid fa-triangle-exclamation"></i>
-                        </div>
-                        <div class="space-y-1">
-                            <div class="inline-block px-2.5 py-0.5 rounded bg-red-900 text-red-300 text-[10px] font-bold uppercase tracking-wider mb-1">
-                                DIAGNÓSTICO DE COMPATIBILIDAD DIFUSA
-                            </div>
-                            <h3 class="text-lg font-bold text-white leading-snug">
-                                Ninguna persona del banco de perfiles coincide de manera confiable con el perfil capturado.
-                            </h3>
-                            <p class="text-xs text-red-300 leading-relaxed">
-                                El grado de coincidencia máximo registrado en el banco de perfiles fue de 
-                                <span class="font-bold font-mono text-white">${(topMatch.jaccardSim * 100).toFixed(1)}%</span> 
-                                (${topMatch.profile.nombre}), el cual es inferior al umbral de confiabilidad mínimo exigido de 
-                                <span class="font-bold font-mono text-white">${(threshold * 100).toFixed(0)}%</span>.
-                            </p>
-                            <p class="text-[11px] text-red-400/90 pt-1">
-                                <i class="fa-solid fa-circle-info mr-1"></i> Sugerencia: Puedes ajustar los valores de tu perfil o reducir levemente el umbral de confiabilidad para visualizar candidatos aproximados.
-                            </p>
-                        </div>
-                    </div>
-                `;
-
-                topMatchesContainer.classList.add("hidden");
-                detailSection.classList.add("hidden");
-
-            } else {
-                // PASSED THRESHOLD
-                banner.className = "rounded-2xl p-6 bg-emerald-950/60 border border-emerald-500/40 text-emerald-100 space-y-3 shadow-xl";
-                banner.innerHTML = `
-                    <div class="flex items-start gap-4">
-                        <div class="w-12 h-12 rounded-xl bg-emerald-900/80 text-emerald-400 flex items-center justify-center text-2xl flex-shrink-0 border border-emerald-600/50">
-                            <i class="fa-solid fa-circle-check"></i>
-                        </div>
-                        <div class="space-y-1">
-                            <div class="inline-block px-2.5 py-0.5 rounded bg-emerald-900 text-emerald-300 text-[10px] font-bold uppercase tracking-wider mb-1">
-                                DIAGNÓSTICO DE COINCIDENCIA CONFIRMACIONAL
-                            </div>
-                            <h3 class="text-lg font-bold text-white leading-snug">
-                                ¡Coincidencia Confiable Encontrada!
-                            </h3>
-                            <p class="text-xs text-emerald-200/90 leading-relaxed">
-                                Se identificó alta afinidad difusa. La persona más compatible es 
-                                <span class="font-bold text-white underline">${topMatch.profile.nombre}</span> 
-                                con una similitud difusa del 
-                                <span class="font-mono font-bold text-emeraldCustom-400 text-sm">${(topMatch.jaccardSim * 100).toFixed(1)}%</span>, 
-                                superando con éxito el umbral de confiabilidad del <span class="font-mono text-white">${(threshold * 100).toFixed(0)}%</span>.
-                            </p>
-                        </div>
-                    </div>
-                `;
-
-                topMatchesContainer.classList.remove("hidden");
-                detailSection.classList.remove("hidden");
-
-                // Render top 2 compatible matches cards
-                topMatchCardsGrid.innerHTML = "";
-                const topMatches = sortedResults.filter(r => r.passedThreshold).slice(0, 2);
-
-                topMatches.forEach((res, rankIdx) => {
-                    const card = document.createElement("div");
-                    card.className = "glass-card p-5 rounded-2xl relative overflow-hidden border border-brand-500/30 space-y-4";
-                    card.innerHTML = `
-                        <div class="flex items-center justify-between">
-                            <div class="flex items-center gap-3">
-                                <span class="text-3xl">${res.profile.avatar}</span>
-                                <div>
-                                    <h4 class="text-base font-bold text-white flex items-center gap-2">
-                                        ${res.profile.nombre}
-                                        ${rankIdx === 0 ? '<span class="px-2 py-0.5 rounded-full bg-amber-500/20 text-amber-300 text-[10px] font-bold border border-amber-500/40">Top #1</span>' : ''}
-                                    </h4>
-                                    <p class="text-xs text-slate-400">${res.profile.bio}</p>
-                                </div>
-                            </div>
-                            <div class="text-right">
-                                <span class="text-2xl font-extrabold font-mono text-emeraldCustom-400">${(res.jaccardSim * 100).toFixed(1)}%</span>
-                                <p class="text-[10px] text-slate-400">Similitud Jaccard</p>
-                            </div>
-                        </div>
-
-                        <!-- Progress Bar -->
-                        <div class="space-y-1">
-                            <div class="flex justify-between text-[11px] text-slate-300 font-mono">
-                                <span>Intersección Total: ${res.sumMin.toFixed(2)} / 15.0</span>
-                                <span>Suma Unión: ${res.sumMax.toFixed(2)}</span>
-                            </div>
-                            <div class="w-full h-2.5 bg-slate-950 rounded-full overflow-hidden p-0.5 border border-brand-900">
-                                <div class="h-full bg-gradient-to-r from-brand-500 to-emeraldCustom-400 rounded-full" style="width: ${res.jaccardSim * 100}%"></div>
-                            </div>
-                        </div>
-
-                        <button onclick="inspectMatchDetail(${res.profile.id})" class="w-full py-2 bg-brand-900/50 hover:bg-brand-800 text-purple-200 rounded-xl text-xs font-semibold border border-brand-700/40 transition flex items-center justify-center gap-2">
-                            <i class="fa-solid fa-chart-bar"></i> Ver Comparativa Detallada 15 Atributos
-                        </button>
-                    `;
-                    topMatchCardsGrid.appendChild(card);
-                });
-
-                // Default inspect the top match
-                renderIntersectionBars(topMatch);
-            }
-
-            // Render Full Ranking Table
-            renderRankingTable(sortedResults, threshold);
-        }
-
-        // =========================================================================
-        // 6. RENDER DETAILED BAR COMPARISON & FULL RANKING TABLE
-        // =========================================================================
-        function inspectMatchDetail(profileId) {
-            const userThresh = parseFloat(document.getElementById("thresholdInput").value);
-            const p = PROFILES_BANK.find(x => x.id === profileId);
-            if (!p) return;
-
-            let sumMin = 0;
-            let sumMax = 0;
-            let intersectionVector = [];
-
-            for (let i = 0; i < 15; i++) {
-                const u = userVector[i];
-                const prof = p.caracteristicas[i];
-                const minVal = Math.min(u, prof);
-                intersectionVector.push(minVal);
-                sumMin += minVal;
-                sumMax += Math.max(u, prof);
-            }
-
-            renderIntersectionBars({
-                profile: p,
-                intersectionVector: intersectionVector,
-                jaccardSim: sumMin / sumMax
-            });
-
-            document.getElementById("detailIntersectionSection").scrollIntoView({ behavior: 'smooth' });
-        }
-
-        function renderIntersectionBars(matchObj) {
-            document.getElementById("bestMatchNameBadge").innerText = `Comparando con: ${matchObj.profile.nombre} (${(matchObj.jaccardSim * 100).toFixed(1)}%)`;
-
-            const container = document.getElementById("intersectionBarsGrid");
-            container.innerHTML = "";
-
-            FEATURES.forEach((feat, i) => {
-                const uVal = userVector[i];
-                const pVal = matchObj.profile.caracteristicas[i];
-                const minVal = matchObj.intersectionVector[i];
-
-                const row = document.createElement("div");
-                row.className = "bg-slate-950/60 p-2.5 rounded-xl border border-brand-900/60 space-y-1.5";
-                row.innerHTML = `
-                    <div class="flex justify-between items-center text-xs">
-                        <span class="font-medium text-slate-200 flex items-center gap-1.5">
-                            <i class="${feat.icon} text-brand-400 text-[11px]"></i>
-                            ${feat.name}
-                        </span>
-                        <div class="font-mono text-[11px] space-x-2">
-                            <span class="text-purple-300">Tú: ${uVal.toFixed(2)}</span>
-                            <span class="text-emeraldCustom-400">${matchObj.profile.nombre.split(' ')[0]}: ${pVal.toFixed(2)}</span>
-                            <span class="text-amber-300 font-bold bg-amber-950/60 px-1.5 py-0.5 rounded">min = ${minVal.toFixed(2)}</span>
-                        </div>
-                    </div>
-                    <!-- Visual Stacked Bar -->
-                    <div class="relative w-full h-3 bg-slate-900 rounded-full overflow-hidden flex">
-                        <!-- User bar -->
-                        <div class="h-full bg-purple-600/50" style="width: ${uVal * 100}%" title="Usuario: ${uVal.toFixed(2)}"></div>
-                        <!-- Intersection highlight -->
-                        <div class="absolute top-0 left-0 h-full bg-amber-400" style="width: ${minVal * 100}%" title="Intersección min: ${minVal.toFixed(2)}"></div>
-                    </div>
-                `;
-                container.appendChild(row);
-            });
-        }
-
-        function renderRankingTable(sortedResults, threshold) {
-            const tbody = document.getElementById("rankingTableBody");
-            tbody.innerHTML = "";
-
-            sortedResults.forEach((res, index) => {
-                const tr = document.createElement("tr");
-                tr.className = "hover:bg-brand-900/30 transition border-b border-brand-900/30";
-
-                const isTop1 = index === 0 && res.passedThreshold;
-
-                tr.innerHTML = `
-                    <td class="py-2.5 px-3 font-bold ${isTop1 ? 'text-amber-400 font-mono text-sm' : 'text-slate-400'}">
-                        #${index + 1}
-                    </td>
-                    <td class="py-2.5 px-3 font-mono text-slate-400">P-${String(res.profile.id).padStart(2, '0')}</td>
-                    <td class="py-2.5 px-3 font-semibold text-white flex items-center gap-2">
-                        <span>${res.profile.avatar}</span>
-                        ${res.profile.nombre}
-                    </td>
-                    <td class="py-2.5 px-3 text-slate-300">${res.profile.bio}</td>
-                    <td class="py-2.5 px-3 text-center font-mono text-purple-300 font-bold">${res.sumMin.toFixed(2)}</td>
-                    <td class="py-2.5 px-3 text-center">
-                        <span class="font-mono font-bold text-sm ${res.passedThreshold ? 'text-emeraldCustom-400' : 'text-slate-400'}">
-                            ${(res.jaccardSim * 100).toFixed(1)}%
-                        </span>
-                    </td>
-                    <td class="py-2.5 px-3 text-center">
-                        ${res.passedThreshold ? 
-                            '<span class="px-2 py-0.5 rounded-full bg-emerald-950 text-emerald-400 text-[10px] font-bold border border-emerald-500/30">Coincide (&ge; Umbral)</span>' : 
-                            '<span class="px-2 py-0.5 rounded-full bg-red-950 text-red-400 text-[10px] font-bold border border-red-500/30">No alcanza umbral</span>'
-                        }
-                    </td>
-                `;
-                tbody.appendChild(tr);
-            });
-        }
-
-        // =========================================================================
-        // 7. RENDER PRE-LOADED PROFILE MATRIX TABLE (SECTION 3)
-        // =========================================================================
-        function renderPreloadedBankTable() {
-            const headerRow = document.getElementById("bankHeaderRow");
-            const tbody = document.getElementById("bankTableBody");
-
-            // Header features
-            FEATURES.forEach(f => {
-                const th = document.createElement("th");
-                th.className = "p-2 border-r border-brand-900 text-[10px] text-center min-w-[50px]";
-                th.title = f.name;
-                th.innerText = `C${f.id}`;
-                headerRow.appendChild(th);
-            });
-
-            // Rows for 20 profiles
-            PROFILES_BANK.forEach(p => {
-                const tr = document.createElement("tr");
-                tr.className = "hover:bg-brand-900/40 transition border-b border-brand-900/30";
-
-                let tds = `
-                    <td class="p-2 border-r border-brand-900 text-slate-400 font-mono">P${String(p.id).padStart(2, '0')}</td>
-                    <td class="p-2 border-r border-brand-900 text-slate-200 font-semibold whitespace-nowrap">${p.avatar} ${p.nombre}</td>
-                `;
-
-                p.caracteristicas.forEach(val => {
-                    const opacity = Math.max(0.2, val);
-                    tds += `
-                        <td class="p-2 border-r border-brand-900 text-center font-mono text-[10px]" style="color: rgba(52, 211, 153, ${opacity});">
-                            ${val.toFixed(1)}
-                        </td>
-                    `;
-                });
-
-                tr.innerHTML = tds;
-                tbody.appendChild(tr);
-            });
-        }
-    </script>
+function renderFeaturesGrid(){
+  const g=$('featuresGrid');g.innerHTML="";
+  FEATURES.forEach((f,i)=>{
+    const gr=GRUPOS.find(x=>x[0]===i);
+    if(gr){const h=document.createElement('div');h.className='grp';h.innerText=gr[1];g.appendChild(h);}
+    const d=document.createElement('div');d.className='sl';
+    d.innerHTML=`<div class="r"><div>${f.id}. ${f.name}</div><span id="fuzzyTextDisplay_${i}"></span></div><div class="seg" id="seg_${i}">${LV.map((l,k)=>`<button data-k="${k}">${l[0]}</button>`).join('')}</div><p>${f.desc}</p>`;
+    g.appendChild(d);setLabel(i,userVector[i]);
+    d.querySelectorAll('.seg button').forEach(b=>b.addEventListener('click',()=>{const v=LV[+b.dataset.k][1];userVector[i]=v;selectedId=selectedId;setLabel(i,v);executeFuzzySearch();}));
+  });
+}
+function setupEventListeners(){
+  const ts=$('thSeg');
+  TH.forEach(v=>{const b=document.createElement('button');b.innerText=Math.round(v*100)+'%';b.dataset.v=v;b.onclick=()=>setThreshold(v);ts.appendChild(b);});
+  setThreshold(0.65,true);
+  $('userName').addEventListener('input',executeFuzzySearch);
+  document.querySelectorAll('.tabs button').forEach(b=>b.addEventListener('click',()=>{
+    document.querySelectorAll('.tabs button').forEach(x=>x.classList.toggle('on',x===b));
+    ['t-res','t-banco','t-alg'].forEach(t=>$(t).classList.toggle('hidden',t!==b.dataset.t));
+  }));
+  $('toggleBankTable').addEventListener('click',()=>$('bankTableWrapper').classList.toggle('hidden'));
+  $('searchProfileInput').addEventListener('input',e=>{const q=e.target.value.toLowerCase();document.querySelectorAll('#bankTableBody tr').forEach(r=>r.style.display=r.innerText.toLowerCase().includes(q)?'':'none');});
+}
+function setThreshold(v,silent){
+  $('thresholdInput').value=v;$('thresholdValDisplay').innerText=`${v.toFixed(2)} (${Math.round(v*100)}%)`;
+  document.querySelectorAll('#thSeg button').forEach(b=>b.classList.toggle('on',Math.abs(+b.dataset.v-v)<1e-9));
+  if(!silent)executeFuzzySearch();
+}
+function resetPerfil(){
+  userVector=Array(15).fill(0.5);selectedId=null;userVector.forEach((v,i)=>setLabel(i,v));
+  $('userName').value="Usuario Actual";setThreshold(0.65,true);executeFuzzySearch();
+}
+function exportarCSV(){
+  const th=$('thresholdInput').value;
+  const rows=[["Posicion","ID","Nombre","Estilo","Suma_min","Similitud_Jaccard","Supera_umbral_"+th]];
+  lastSorted.forEach((r,i)=>rows.push([i+1,"P-"+String(r.profile.id).padStart(2,'0'),r.profile.nombre,r.profile.bio,r.sumMin.toFixed(3),r.jaccardSim.toFixed(4),r.passedThreshold?"SI":"NO"]));
+  const csv="\ufeff"+rows.map(r=>r.map(c=>'"'+String(c).replace(/"/g,'""')+'"').join(',')).join('\n');
+  const a=document.createElement('a');a.href=URL.createObjectURL(new Blob([csv],{type:'text/csv;charset=utf-8'}));a.download='ranking_compatibilidad.csv';a.click();
+}
+function renderExtras(sorted,th){
+  const n=sorted.filter(r=>r.passedThreshold).length,avg=sorted.reduce((a,r)=>a+r.jaccardSim,0)/sorted.length;
+  const fav=FEATURES.map((f,i)=>[f.name,userVector[i]]).sort((a,b)=>b[1]-a[1]).slice(0,3).map(x=>x[0].split(' /')[0]).join(' · ');
+  $('kpis').innerHTML=`<div class="kpi"><small>Mejor similitud</small><b>${(sorted[0].jaccardSim*100).toFixed(1)}%</b></div><div class="kpi"><small>Superan el umbral</small><b>${n} / ${sorted.length}</b></div><div class="kpi"><small>Similitud promedio</small><b>${(avg*100).toFixed(1)}%</b></div><div class="kpi"><small>Tus gustos más fuertes</small><b class="s">${fav}</b></div>`;
+  $('vecHead').innerHTML='<tr>'+FEATURES.map(f=>`<th title="${f.name}">C${f.id}</th>`).join('')+'</tr>';
+  $('vecBody').innerHTML='<tr>'+userVector.map(v=>`<td style="color:var(--lime)">${v.toFixed(2)}</td>`).join('')+'</tr>';
+}
+function loadPreset(k){
+  if(!PRESETS[k])return;userVector=[...PRESETS[k]];selectedId=null;
+  userVector.forEach((v,i)=>setLabel(i,v));
+  executeFuzzySearch();
+}
+function compare(p){
+  let sm=0,sx=0,iv=[];
+  for(let i=0;i<15;i++){const u=userVector[i],q=p.caracteristicas[i];iv.push(Math.min(u,q));sm+=Math.min(u,q);sx+=Math.max(u,q);}
+  return {profile:p,sumMin:sm,sumMax:sx,intersectionVector:iv,jaccardSim:sx>0?sm/sx:0};
+}
+function executeFuzzySearch(){
+  const th=parseFloat($('thresholdInput').value);
+  const res=PROFILES_BANK.map(p=>{const r=compare(p);r.passedThreshold=r.jaccardSim>=th;return r;}).sort((a,b)=>b.jaccardSim-a.jaccardSim);
+  updateDiagnosticUI(res[0],th,res,$('userName').value||"Usuario Actual");
+}
+function updateDiagnosticUI(top,th,sorted,name){
+  const b=$('diagnosticBanner'),pod=$('topMatchCardsGrid'),ok=top.jaccardSim>=th;
+  const pct=(top.jaccardSim*100).toFixed(1);
+  if(ok){
+    b.className='verdict ok';
+    b.innerHTML=`<div class="g">${pct}%</div><div><h3>Coincidencia confiable: ${top.profile.nombre}</h3><p>${esc(name)}, tu mejor afinidad difusa supera el umbral de ${(th*100).toFixed(0)}%. ${top.profile.bio}.</p></div>`;
+  }else{
+    b.className='verdict no';
+    b.innerHTML=`<div class="g">${pct}%</div><div><h3>Ninguna persona coincide de forma confiable</h3><p>${esc(name)}, el máximo del banco (${top.profile.nombre}) queda por debajo del umbral de ${(th*100).toFixed(0)}%. Ajusta tus gustos o baja un poco el umbral.</p></div>`;
+  }
+  const pass=sorted.filter(r=>r.passedThreshold).slice(0,3);
+  pod.innerHTML=pass.length?"":'<p style="font-size:13px;color:var(--mut)">Sin perfiles que superen el umbral.</p>';
+  pass.forEach((r,k)=>{
+    const d=document.createElement('div');d.className='pod'+(selectedId===r.profile.id?' sel':'');
+    d.innerHTML=`<span class="n">${k+1}</span><span class="a">${r.profile.avatar}</span><div><b>${r.profile.nombre}</b><small>${r.profile.bio}</small></div><span class="v">${(r.jaccardSim*100).toFixed(1)}%</span>`;
+    d.onclick=()=>inspectMatchDetail(r.profile.id);pod.appendChild(d);
+  });
+  const shown=selectedId?compare(PROFILES_BANK.find(x=>x.id===selectedId)):top;
+  renderIntersectionBars(shown);
+  renderRankingTable(sorted,th);lastSorted=sorted;renderExtras(sorted,th);
+}
+function inspectMatchDetail(id){selectedId=id;executeFuzzySearch();}
+function renderIntersectionBars(m){
+  $('bestMatchNameBadge').innerText=`Radar · ${m.profile.nombre} (${(m.jaccardSim*100).toFixed(1)}%)`;
+  const pt=(vec,i,k=1)=>{const a=-Math.PI/2+i*2*Math.PI/15,r=150*vec[i]*k;return (200+r*Math.cos(a)).toFixed(1)+','+(200+r*Math.sin(a)).toFixed(1);};
+  const poly=(vec,fill,stroke,op)=>`<polygon points="${vec.map((_,i)=>pt(vec,i)).join(' ')}" fill="${fill}" fill-opacity="${op}" stroke="${stroke}" stroke-width="2"/>`;
+  let s='';[.25,.5,.75,1].forEach(r=>{s+=`<polygon points="${userVector.map((_,i)=>pt(userVector.map(()=>r),i)).join(' ')}" fill="none" stroke="#2a2a3d"/>`;});
+  FEATURES.forEach((f,i)=>{const a=-Math.PI/2+i*2*Math.PI/15;s+=`<line x1="200" y1="200" x2="${200+150*Math.cos(a)}" y2="${200+150*Math.sin(a)}" stroke="#2a2a3d"/><text x="${200+172*Math.cos(a)}" y="${204+172*Math.sin(a)}" fill="#8b8ba3" font-size="11" text-anchor="middle" font-family="Space Mono"><title>${f.name}</title>C${f.id}</text>`;});
+  s+=poly(userVector,'#c6ff3d','#c6ff3d',.15)+poly(m.profile.caracteristicas,'#ff3d81','#ff3d81',.15)+poly(m.intersectionVector,'#ffffff','#ffffff',.25);
+  $('radar').innerHTML=s;
+  $('intersectionBarsGrid').innerHTML=FEATURES.map((f,i)=>`<tr title="${f.name}"><td>C${f.id} <span style="color:var(--mut)">${f.name.slice(0,22)}</span></td><td class="mono" style="color:var(--lime)">${userVector[i].toFixed(2)}</td><td class="mono" style="color:var(--pink)">${m.profile.caracteristicas[i].toFixed(2)}</td><td class="mono">${m.intersectionVector[i].toFixed(2)}</td></tr>`).join('');
+}
+function renderRankingTable(sorted,th){
+  const t=$('rankingTableBody');t.innerHTML="";
+  sorted.forEach((r,i)=>{
+    const d=document.createElement('div');d.className='rank'+(r.passedThreshold?' pass':'')+(selectedId===r.profile.id?' sel':'');
+    d.innerHTML=`<span class="p">#${i+1}</span><span class="nm">${r.profile.avatar} ${r.profile.nombre}</span><div class="bar"><i style="width:${r.jaccardSim*100}%"></i></div><span class="pc">${(r.jaccardSim*100).toFixed(1)}%</span>`;
+    d.title=`P-${String(r.profile.id).padStart(2,'0')} · Σmin ${r.sumMin.toFixed(2)} · ${r.passedThreshold?'Coincide':'No alcanza umbral'}`;
+    d.onclick=()=>inspectMatchDetail(r.profile.id);t.appendChild(d);
+  });
+}
+function renderPreloadedBankTable(){
+  const h=$('bankHeaderRow'),t=$('bankTableBody');
+  FEATURES.forEach(f=>{const th=document.createElement('th');th.title=f.name;th.innerText='C'+f.id;h.appendChild(th);});
+  PROFILES_BANK.forEach(p=>{
+    const tr=document.createElement('tr');
+    let x=`<td>P${String(p.id).padStart(2,'0')}</td><td>${p.avatar} ${p.nombre}</td>`;
+    p.caracteristicas.forEach(v=>{x+=`<td style="background:rgba(198,255,61,${(v*0.45).toFixed(2)});color:${v>0.6?'#09090f':'#ececf4'}">${v.toFixed(1)}</td>`;});
+    tr.innerHTML=x;t.appendChild(tr);
+  });
+}
+</script>
 </body>
 </html>
